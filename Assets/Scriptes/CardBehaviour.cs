@@ -37,28 +37,29 @@ public class CardBehaviour : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-
         if (Input.touchCount > 0)
         {
             Touch touch = Input.GetTouch(0);
             Vector2 touchPosition = Camera.main.ScreenToWorldPoint(touch.position);
             Collider2D touchCol = Physics2D.OverlapPoint(touchPosition);
+            //If touch collides with card at the start of touch
             if (touch.phase == TouchPhase.Began && col.OverlapPoint(touchPosition) && !chosen)
             {
                 if (active)
                 {
+                    //if it is active player hand than chose this card
                     ImChosen.Invoke(num);
                 }
                 else
                 {
+                    //if it is not active player hand than reverse this card
                     reverse = true;
                     transform.RotateAround(transform.position, Vector3.forward, 180);
-
                 }
             }
+            //If touch ended and card is reversed than reverse it back
             if (touch.phase == TouchPhase.Ended && reverse)
             {
-                print("unrotate");
                 reverse = false;
                 transform.RotateAround(transform.position, Vector3.forward, 180);
             }
@@ -66,8 +67,7 @@ public class CardBehaviour : MonoBehaviour
         
     }
 
-
-    void SetColor(Color c)
+    void SetBorderColor(Color c)
     {
         border.color = c;
     }
@@ -75,8 +75,8 @@ public class CardBehaviour : MonoBehaviour
     public void SetChosen(bool ch)
     {
         chosen = ch;
-        if (ch) SetColor(Color.red);
-        else SetColor(Color.black);
+        if (ch) SetBorderColor(Color.red);
+        else SetBorderColor(Color.black);
     }
 
     public void SetNum(int n)
@@ -87,7 +87,6 @@ public class CardBehaviour : MonoBehaviour
     public void Activate()
     {
         active = true;
-        print(name + "acivate"+ active.ToString());
     }
     public void DeActivate()
     {
@@ -99,6 +98,7 @@ public class CardBehaviour : MonoBehaviour
     {
         return moves;
     }
+
     public void SetRotation(Quaternion r)
     {
         fieldController.SetRotation(r);
@@ -107,19 +107,12 @@ public class CardBehaviour : MonoBehaviour
     public void TextureReset()
     {
         GameObject moveObj = new GameObject();
-        SpriteRenderer moveComp = moveObj.AddComponent<SpriteRenderer>() as SpriteRenderer;
+        SpriteRenderer moveComp = moveObj.AddComponent<SpriteRenderer>();
         moveComp.sprite = Sprite.Create(moveShow, new Rect(0.00F, 0.00F, 64.00F, 64.00F), new Vector2(0.5F, 0.5F), 64);
         fieldController.SetTextures(moveObj);
     }
 
     public void SetMove(int[] m)
-    {
-        TextureReset();
-        moves = (int[])m.Clone();
-        fieldController.SetMoves(m);
-    }
-
-    public void SetMoveRev(int[] m)
     {
         TextureReset();
         moves = (int[])m.Clone();

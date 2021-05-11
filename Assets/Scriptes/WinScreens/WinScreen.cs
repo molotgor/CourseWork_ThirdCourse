@@ -14,6 +14,7 @@ public class WinScreen : MonoBehaviour
 
     void Start()
     {
+        //Hide win screen
         RestartBtn.interactable = false;
         MainMenuBtn.interactable = false;
         GetComponent<CanvasGroup>().alpha = 0f;
@@ -21,15 +22,20 @@ public class WinScreen : MonoBehaviour
 
     virtual public void ShowScreen(int color)
     {
+        //Show win screen
     }
 
     public void Restart()
     {
+        //Restart current Scene
+        print("Restart");
         SceneManager.LoadScene(SceneManager.GetActiveScene().name, LoadSceneMode.Single);
     }
 
     public void MainMenu()
     {
+        //Go back to main menu
+        print("MainMenu");
         SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
     }
 }

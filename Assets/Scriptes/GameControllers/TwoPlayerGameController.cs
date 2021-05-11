@@ -16,7 +16,6 @@ public class TwoPlayerGameController : GameController
 
     override public void MoveEnd(int from, int to)
     {
-        
         //Swap played card with side card
         int[] m = (int[])hands[active].GetMove().Clone();
         hands[active].SetMove((int[])sideCards[active].GetMove().Clone());

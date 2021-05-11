@@ -16,22 +16,20 @@ public class PieceBehaviour : MonoBehaviour
     Collider2D col;
 
 
-    // Start is called before the first frame update
     void Start()
     {   
+        //Set sprite to represent type of piece
         col = GetComponent<Collider2D>();
         SpriteRenderer spr = GetComponent<SpriteRenderer>();
         switch (rank)
         {
             case 1:
                 {
-                    //print("Student");
                     spr.sprite = Sprite.Create(student, new Rect(0.00F, 0.00F, 64.00F, 64.00F), new Vector2(0.5F, 0.5F), 64);
                 }
                 break;
             case 2:
                 {
-                    //print("Master");
                     spr.sprite = Sprite.Create(master, new Rect(0.00F, 0.00F, 64.00F, 64.00F), new Vector2(0.5F, 0.5F), 64);
                 }
                 break;
@@ -41,13 +39,11 @@ public class PieceBehaviour : MonoBehaviour
         {
             case 4:
                 {
-                    //print("Blue");
                     spr.color = Color.blue;
                 }
                 break;
             case 8:
                 {
-                    //print("Red");
                     spr.color = Color.red;
                 }
                 break;
@@ -63,57 +59,32 @@ public class PieceBehaviour : MonoBehaviour
         color = colorPiece;
     }
 
-    public int GetRank()
-    {
-        return rank;
-    }
-
-    public int GetColor()
-    {
-        return color;
-    }
-
-    public int GetCategory()
-    {
-        return color | rank;
-    }
     public void SetCoord(int coordField)
     {
         coord = coordField;
     }
-
-    public int GetCoord()
-    {
-        return coord;
-    }
-
-    public void SetPosition(Vector2 pos)
-    {
-        //print("BEFORE");
-        //print(transform.gameObject.transform.position);
-        transform.position = new Vector3(pos.x, pos.y, -1);
-        //print("AFTER");
-        //print(transform.gameObject.transform.position);
-    }
-    // Update is called once per frame
+    
     void Update()
     {
+        //If there is tap on screen
         if (Input.touchCount > 0)
         {
             Touch touch = Input.GetTouch(0);
             Vector2 touchPosition = Camera.main.ScreenToWorldPoint(touch.position);
+            //And this touch collide with piece
             switch (touch.phase)
             {
+                //At start we activate move
                 case (TouchPhase.Began):
                     {
                         Collider2D touchCol = Physics2D.OverlapPoint(touchPosition);
-                        //if (col == touchCol && color == field.GetCurrentPlayer())
                         if (col.OverlapPoint(touchPosition))
                         {
                             moveAllowed = true;
                         }
                     }
                     break;
+                //If move active position is same as touch
                 case (TouchPhase.Moved):
                     {
                         if (moveAllowed)
@@ -122,16 +93,16 @@ public class PieceBehaviour : MonoBehaviour
                         }
                     }
                     break;
+                //At end we try get position on field
                 case (TouchPhase.Ended):
                     {
                         if (moveAllowed)
                         {
                             moveAllowed = false;
                             pos = transform.position;
-                            print(pos);
+                            //print(pos);
                             Vector3 moveEffect = field.GetPos(coord, pos);
                             transform.position = new Vector3(moveEffect.x, moveEffect.y, -1);
-                            //coord = (int)moveEffect.z;
                         }
                     }
                     break;
@@ -141,8 +112,10 @@ public class PieceBehaviour : MonoBehaviour
         }
     }
 
+    //Function that being called at the end of move
     public void EndMove(int from, int to)
     {
+        //If move start == position of piece than move that piece
         if (from == coord) 
         {
             coord = to;
@@ -151,6 +124,7 @@ public class PieceBehaviour : MonoBehaviour
             return;
         }
 
+        //If move end == position of piece than destroy that piece
         if (to == coord)
         {
             Destroy(gameObject);

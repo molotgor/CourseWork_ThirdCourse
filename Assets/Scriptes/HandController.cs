@@ -10,9 +10,10 @@ public class HandController : MonoBehaviour
     [SerializeField] int[] cards1;
     [SerializeField] int[] cards2;
     int chosen = -1;
-    // Start is called before the first frame update
+
     public void Start()
     {
+        //Add cards to the hand
         for(int i = 0; i < cardsInHand.Length; i++)
         {
             cardsInHand[i] = (CardBehaviour)transform.GetChild(i).GetComponent("CardBehaviour");
@@ -20,7 +21,7 @@ public class HandController : MonoBehaviour
             cardsInHand[i].ImChosen.AddListener(ChangeChosen);
             cardsInHand[i].SetRotation(transform.rotation);
         }
-        SetHand(cards1, cards2);
+        SetMove(cards1, cards2);
     }
 
     public void StartCards()
@@ -31,8 +32,10 @@ public class HandController : MonoBehaviour
 
     public void ChangeChosen(int num)
     {
+        //Make chosen card at num
         cardsInHand[num].SetChosen(true);
         chosen = num;
+        //Make not chosen other cards
         for (int i = 0; i < cardsInHand.Length; i++)
         {
             if (i == num) continue;
@@ -45,7 +48,6 @@ public class HandController : MonoBehaviour
         active = true;
         for (int i = 0; i < cardsInHand.Length; i++)
         {
-            print("activate " + i + " card in " + name);
             cardsInHand[i].Activate();
         }
     }
@@ -61,31 +63,31 @@ public class HandController : MonoBehaviour
 
     public int[] GetMove()
     {
+        //Get move if any card chosen
         if (chosen > -1) return cardsInHand[chosen].GetMove();
         return new int[]{};
     }
 
     public int[] GetMove(int i)
     {
+        //Get move of i card
         if (i < 2) return cardsInHand[i].GetMove();
         return new int[] { };
     }
     public void SetMove(int[] m)
     {
+        //Set move of chosen card
         if (chosen > -1) cardsInHand[chosen].SetMove((int[])m.Clone());
     }
     public void SetMove(int[] m1, int[] m2)
     {
+        //Set move of both cards
         cardsInHand[0].SetMove((int[])m1.Clone());
         cardsInHand[1].SetMove((int[])m2.Clone());
     }
     public void SetMove(int i, int[] m)
     {
+        //Set move of i card
         cardsInHand[i].SetMove((int[])m.Clone());
-    }
-    public void SetHand(int[] m1, int[] m2)
-    {
-        cardsInHand[0].SetMove(m1); 
-        cardsInHand[1].SetMove(m2);
     }
 }

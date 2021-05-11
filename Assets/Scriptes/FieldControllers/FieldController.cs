@@ -22,6 +22,7 @@ public class FieldController : MonoBehaviour
     {
         field.SetRotation(r);
     }
+    
     virtual public int GetCenter()
     {
         return (width / 2) * height + width / 2;

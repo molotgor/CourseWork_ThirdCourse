@@ -7,6 +7,7 @@ public class MainMenuChange : MonoBehaviour
 {
     public void ChangeTo(string sceneName)
     {
+        //Change scene
         SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
     }
 }

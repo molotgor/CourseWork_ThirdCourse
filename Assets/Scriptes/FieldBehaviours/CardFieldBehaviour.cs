@@ -9,6 +9,7 @@ public class CardFieldBehaviour : FieldBehaviour
     {
         clearField();
         Vector3 parChange = transform.parent.parent.position;
+        //For each cell of move init move pointer
         for (int i = 0; i < moves.Length; i++)
         {
             //print(moves[i]);

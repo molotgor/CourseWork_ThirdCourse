@@ -9,6 +9,7 @@ public class DeckBehaviour : MonoBehaviour
     int[] order;
     public void Start()
     {
+        //Initialize deck
         order = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31 };
         deck = new Dictionary<int, int[]> {
             { 0, new int[]{ 7, 16, 18 } },
@@ -49,12 +50,12 @@ public class DeckBehaviour : MonoBehaviour
         };
     }
 
-    // Update is called once per frame
     public void Shuffle()
     {
         int n = order.Length;
         while (n > 1)
         {
+            //Take random element and swap with last
             n--;
             int k = Random.Range(0, n + 1);
             int val = order[k];
@@ -62,6 +63,8 @@ public class DeckBehaviour : MonoBehaviour
             order[n] = val;
         }
 
+        /*
+         * print deck
         string res = "";
         for (int i = 0; i < order.Length; i++)
         {
@@ -69,17 +72,11 @@ public class DeckBehaviour : MonoBehaviour
             res += ", ";
         }
         print(res);
+        */
     }
 
     public int[] getCard(int key)
     {
-        print(order[key]);
-        string res = "";
-        for (int i = 0; i < deck[order[key]].Length; i++)
-        {
-            res += deck[order[key]][i];
-            res += ", ";
-        }
         return deck[order[key]];
     }
 }

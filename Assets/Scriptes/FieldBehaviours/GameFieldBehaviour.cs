@@ -25,6 +25,7 @@ public class GameFieldBehaviour : FieldBehaviour
                 int ind = i * width + j;
                 if (field[ind] == 0)
                     continue;
+                //For each place in field array with piece create gameobject with apropriate parameters
                 if (((field[ind] & PieceCategory.Red) > 0)) piecePrefab.transform.rotation = new Quaternion(0, 0, 180, 0);
                 else piecePrefab.transform.rotation = new Quaternion(0, 0, 0, 0);
                 GameObject tempObj = Instantiate(piecePrefab, pieces, false);

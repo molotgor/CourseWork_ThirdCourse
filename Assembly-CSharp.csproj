@@ -78,7 +78,6 @@
     <Compile Include="Assets\Scriptes\GameControllers\AIGameController.cs" />
     <Compile Include="Assets\Scriptes\GameControllers\GameController.cs" />
     <Compile Include="Assets\Scriptes\GameControllers\TwoPlayerGameController.cs" />
-    <Compile Include="Assets\Scriptes\GameSettings.cs" />
     <Compile Include="Assets\Scriptes\HandController.cs" />
     <Compile Include="Assets\Scriptes\MainMenu\MainMenuChange.cs" />
     <Compile Include="Assets\Scriptes\PieceBehaviour.cs" />

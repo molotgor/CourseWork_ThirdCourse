@@ -18,16 +18,18 @@ public class ConcedeButtons : MonoBehaviour
     // Update is called once per frame
     public void ChangeActive(int act)
     {
-        if (act > 0)
-        {
-            BlueConcede.gameObject.SetActive(false);
-            RedConcede.gameObject.SetActive(true);
-        }
-        else
-        {
-            RedConcede.gameObject.SetActive(false);
-            BlueConcede.gameObject.SetActive(true);
-        }
+        //Swap active concede button for two player game
+        if (RedConcede != null)
+            if (act > 0)
+            {
+                BlueConcede.gameObject.SetActive(false);
+                RedConcede.gameObject.SetActive(true);
+            }
+            else
+            {
+                RedConcede.gameObject.SetActive(false);
+                BlueConcede.gameObject.SetActive(true);
+            }
     }
 
     public void Concede(int c)

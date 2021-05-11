@@ -83,7 +83,7 @@ public class GameController : MonoBehaviour
     protected void SetupDeck()
     {
         //Start deck and shuffle it
-        print("DeckShuffled");
+        //print("DeckShuffled");
         deck.Start();
         deck.Shuffle();
     }
@@ -115,7 +115,7 @@ public class GameController : MonoBehaviour
         concedeButtons.ChangeActive(act);
     }
 
-    protected void GetMove()
+    virtual protected void GetMove()
     {
         //Set active move to field
         int[] move = hands[active].GetMove();
@@ -160,18 +160,18 @@ public class GameController : MonoBehaviour
     }
     virtual protected void SetMoves()
     {
-        print("SETMOVES");
-        printArr((int[])deck.getCard(0).Clone());
-        printArr((int[])deck.getCard(1).Clone());
+        //print("SETMOVES");
+        //printArr((int[])deck.getCard(0).Clone());
+        //printArr((int[])deck.getCard(1).Clone());
         //Blue draw two cards in hand
         hands[0].SetMove(deck.getCard(0), deck.getCard(1));
         hands[0].StartCards();
-        printArr((int[])deck.getCard(2).Clone());
-        printArr((int[])deck.getCard(3).Clone());
+        //printArr((int[])deck.getCard(2).Clone());
+        //printArr((int[])deck.getCard(3).Clone());
         //Red draw next two cards
         hands[1].SetMove(RotateMove(deck.getCard(2)), RotateMove(deck.getCard(3)));
         hands[1].StartCards();
-        printArr((int[])deck.getCard(4).Clone());
+        //printArr((int[])deck.getCard(4).Clone());
         //Fifth card goes to side
         int[] sidemove = deck.getCard(4);
         sideCards[0].Start();
@@ -192,7 +192,7 @@ public class GameController : MonoBehaviour
             res += arr[i];
             res += ", ";
         }
-        print(res);
+        //print(res);
     }
     protected void StartField()
     {
@@ -242,19 +242,19 @@ public class GameController : MonoBehaviour
             }
             lines[i] = line;
         }
-
+        /*
         for (int i = 0; i < gameField.GetHeight(); i++)
         {
             print(lines[gameField.GetHeight() - i - 1]);
         }
+        */
     }
 
     public bool GetPosition(int from, int to)
     {
-        //
-        print(from);
-        print(to);
-        print(from + to);
+        //print(from);
+        //print(to);
+        //print(from + to);
         return (gameBoard[from] & ((active + 1) * 4)) > 0 && (gameBoard[from + to] & ((active + 1) * 4)) == 0;
     }
 

@@ -5,6 +5,7 @@ using UnityEngine.Events;
 
 public class FieldBehaviour : MonoBehaviour
 {
+    public EndMove gameEvent;
     protected Vector2[] fieldpos = new Vector2[25];
     protected int width = 5;
     protected int height = 5;
@@ -28,7 +29,6 @@ public class FieldBehaviour : MonoBehaviour
         int numCells = width * height;
         fieldpos = new Vector2[numCells];
         SpriteRenderer spr = GetComponent<SpriteRenderer>();
-        //startPos = (Vector2)transform.position - spr.size;
 
         if (debug) print(startPos);
         for (int i = 0; i < height; i++)
@@ -37,16 +37,15 @@ public class FieldBehaviour : MonoBehaviour
             for (int j = 0; j < width; j++)
             {
                 int ind = i * width + j;
-                //DragAndDrop piece = pieces.GetChild(i * width + j).gameObject.GetComponent<DragAndDrop>();
-                //piece.mEnd.AddListener(GetPosOnField);
-                //piece.transform.position = new Vector2(j * deltaPos + -2.156F, i * deltaPos + -2.156F);
                 fieldpos[i * width + j] = new Vector2(j * deltaPos + startPos.x, i * deltaPos + startPos.y);
-                //fieldpos[i * width + j] = convertVector(fieldpos[i * width + j]);
                 pos += fieldpos[i * width + j];
                 pos += ", ";
             }
-            //print(pos);
         }
+    }
+    public void SetEvent(EndMove parEvent)
+    {
+        gameEvent = parEvent;
     }
     public void SetScale(Vector3 s)
     {
@@ -74,10 +73,6 @@ public class FieldBehaviour : MonoBehaviour
         debug = deb;
     }
 
-    public void SetGameMode(string mode)
-    {
-        gamemodeclass = mode;
-    }
     public void SetRotation(Quaternion r)
     {
         rotation = r;
@@ -85,17 +80,14 @@ public class FieldBehaviour : MonoBehaviour
     public float GetDeltaPos()
     {
         return deltaPos;
-            //currentPlayer;
     }
     public int GetWidth()
     {
         return width;
-        //currentPlayer;
     }
     public int GetHeight()
     {
         return height;
-        //currentPlayer;
     }
     virtual public void Display(int[] field)
     {

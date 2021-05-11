@@ -16,6 +16,7 @@ public class ConcedeButton : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //If button pressed invoke concede in concede buttons
         if (Input.touchCount > 0)
         {
             Touch touch = Input.GetTouch(0);
