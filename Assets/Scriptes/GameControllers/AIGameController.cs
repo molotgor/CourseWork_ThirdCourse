@@ -67,7 +67,7 @@ public class AIGameController : GameController
         int[] teorField = (int[])gameBoard.Clone();
 
         //Init depth and start search for move
-        int depth = 6;
+        int depth = 2;
         ThinkOnMove(teorField, active, BlueMoves, RedMoves, side, depth, true);
         yield return new WaitForSecondsRealtime(timeWait);
     }
@@ -95,8 +95,6 @@ public class AIGameController : GameController
             }
         }
         //print(teorActive / 4);
-        if ((teorField[temples[2 - (teorActive/4)]] & teorActive) > 0)
-            res = int.MaxValue;
         return res;
     }
 
@@ -127,35 +125,37 @@ public class AIGameController : GameController
 
     int ThinkOnMove(int[] teorField, int teorActive, List<int[]> teorBlueMoves, List<int[]> teorRedMoves, int[] teorSideMove, int depth, bool start)
     {
+        
         //Evaluate cost of field state
         int eval = Evaluate(teorField, teorActive);
+        //if (depth == 0)
+            //print(eval.ToString() + "\n" + printArr2d(teorField));
         //if cost >= than its win
-        if (eval >= 1000)
-        {
-            return int.MaxValue;
-        }
-        //if cost is negative than its lose
-        if (eval < -1000)
-        {
-            return int.MinValue;
-        }
-        //if depth is zero than return eval
-        if (depth == 0)
+        if (depth == 0 || Mathf.Abs(eval) >= 1000)
         {
             return eval;
         }
+        //if depth is zero than return eval
+        
         List<List<int[]>> moves = new List<List<int[]>>();
         moves.Add(teorBlueMoves);
         moves.Add(teorRedMoves);
         int maxEval = int.MinValue;
+        string res = "";
         Dictionary<int, Dictionary<int, List<int>>> teorMoves = GetAllMoves(teorActive, teorField, moves[teorActive]);
         Dictionary<int, Dictionary<int, List<int>>> bestMoves = new Dictionary<int, Dictionary<int, List<int>>>();
         foreach (int i in teorMoves.Keys)
         {
+            if (start)
+                res += i.ToString() + " => ";
             foreach (int j in teorMoves[i].Keys)
             {
+                if (start)
+                    res += j.ToString() + " => (";
                 foreach (int z in teorMoves[i][j])
                 {
+                    if (start)
+                        res += z.ToString() + " = ";
                     //Make move from i to z by j card
                     int[] tempField = (int[])teorField.Clone();
                     List<int[]> tempBlueMoves = teorBlueMoves;
@@ -177,6 +177,8 @@ public class AIGameController : GameController
                     //Search deeper
                     int evalSearch = -ThinkOnMove(tempField, 1 - teorActive, tempBlueMoves, tempRedMoves, tempSideMove, depth - 1, false);
                     //If EvalCost is more than max than create new dictionary with better moves
+                    //if (start)
+                        //res += evalSearch.ToString() + "; ";
                     if (maxEval < evalSearch)
                     {
                         maxEval = evalSearch;
@@ -224,16 +226,21 @@ public class AIGameController : GameController
                         //printDict(bestMoves);
                     }
                 }
+                if (start)
+                    res += "); ";
             }
+            if (start)
+                res += "\n";
         }
 
         if (!start)
             return maxEval;
-
+        //print(res);
         //If it is start of search than make move with best cost
 
         //print("Commit AI BEST MOVE");
-        //print(maxEval);
+        print(maxEval);
+        printDict(bestMoves);
         int Coord = bestMoves.ElementAt(Random.Range(0, bestMoves.Keys.Count)).Key;
         int Card = bestMoves[Coord].ElementAt(Random.Range(0, bestMoves[Coord].Count)).Key;
         int Into = bestMoves[Coord][Card][Random.Range(0, bestMoves[Coord][Card].Count)];

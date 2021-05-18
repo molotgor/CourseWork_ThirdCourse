@@ -161,7 +161,7 @@ public class GameController : MonoBehaviour
     virtual protected void SetMoves()
     {
         //print("SETMOVES");
-        //printArr((int[])deck.getCard(0).Clone());
+        printArr((int[])deck.getCard(0).Clone());
         //printArr((int[])deck.getCard(1).Clone());
         //Blue draw two cards in hand
         hands[0].SetMove(deck.getCard(0), deck.getCard(1));
@@ -193,6 +193,22 @@ public class GameController : MonoBehaviour
             res += ", ";
         }
         //print(res);
+    }
+
+    protected string printArr2d(int[] arr)
+    {
+        //Function for printing arrays
+        string res = "";
+        for (int i = 0; i < 5; i++)
+        {
+            for (int j = 0; j < 5; j++)
+            {
+                res += arr[i * width + j];
+                res += ", ";
+            }
+            res += "\n";
+        }
+        return res;
     }
     protected void StartField()
     {
@@ -229,25 +245,17 @@ public class GameController : MonoBehaviour
     virtual protected void printBoard()
     {
         //Function for printing gameBoard
-        string[] lines = new string[5];
         int width = gameField.GetWidth();
-        int[] moves = hands[active].GetMove();
+        string boardStr = "";
         for (int i = 0; i < gameField.GetHeight(); i++)
         {
-            string line = "";
             for (int j = 0; j < width; j++)
             {
-                line += gameBoard[i * width + j];
-                line += ", ";
+                boardStr += gameBoard[i * width + j];
+                boardStr += ", ";
             }
-            lines[i] = line;
+            boardStr += "\n";
         }
-        /*
-        for (int i = 0; i < gameField.GetHeight(); i++)
-        {
-            print(lines[gameField.GetHeight() - i - 1]);
-        }
-        */
     }
 
     public bool GetPosition(int from, int to)
